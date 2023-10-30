@@ -110,6 +110,15 @@ public:
   UploaderBuilder &set_url(std::string_view url);
   UploaderBuilder &set_tag(std::string_view key, std::string_view val);
 
+  void set_env(const char* env);
+  void set_service(const char* service);
+  void set_version(const char* version);
+  void set_runtime(const char* runtime);
+  void set_runtime_version(const char* runtime_version);
+  void set_profiler_version(const char* profiler_version);
+  void set_url(const char* url);
+  void set_tag(const char* key, const char* val);
+
   Uploader *build_ptr();
 };
 

@@ -31,6 +31,12 @@ from ddtrace.settings.profiling import config
 
 from . import _asyncio
 
+import inspect
+
+def debug_print(msg):
+    frame = inspect.currentframe().f_back
+    linenumber = frame.f_lineno
+    print(f"{linenumber} - {msg}")
 
 LOG = logging.getLogger(__name__)
 
@@ -133,6 +139,7 @@ class _ProfilerInstance(service.Service):
     ENDPOINT_TEMPLATE = "https://intake.profile.{}"
 
     def _build_default_exporters(self):
+        debug_print("start of build default exporter")
         # type: (...) -> List[exporter.Exporter]
         _OUTPUT_PPROF = config.output_pprof
         if _OUTPUT_PPROF:
@@ -173,7 +180,9 @@ class _ProfilerInstance(service.Service):
         if self.endpoint_collection_enabled:
             endpoint_call_counter_span_processor.enable()
 
+
         if self._export_libdd_enabled:
+            debug_print("within export libdd enabled")
             versionname = (
                 "{}.libdd".format(self.version)
                 if self._export_py_enabled and self.version is not None

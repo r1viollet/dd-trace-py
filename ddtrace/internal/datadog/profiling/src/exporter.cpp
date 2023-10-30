@@ -72,6 +72,47 @@ UploaderBuilder::set_tag(std::string_view key, std::string_view val)
     return *this;
 }
 
+// New operators to for builder
+void UploaderBuilder::set_env(const char* env) {
+    if (env && *env)
+        this->env = env;
+}
+
+void UploaderBuilder::set_service(const char* service) {
+    if (service && *service)
+        this->service = service;
+}
+
+void UploaderBuilder::set_version(const char* version) {
+    if (version && *version)
+        this->version = version;
+}
+
+void UploaderBuilder::set_runtime(const char* runtime) {
+    if (runtime)
+        this->runtime = runtime;
+}
+
+void UploaderBuilder::set_runtime_version(const char* runtime_version) {
+    if (runtime_version)
+        this->runtime_version = runtime_version;
+}
+
+void UploaderBuilder::set_profiler_version(const char* profiler_version) {
+    if (profiler_version)
+        this->profiler_version = profiler_version;
+}
+
+void UploaderBuilder::set_url(const char* url) {
+    if (url)
+        this->url = url;
+}
+
+void UploaderBuilder::set_tag(const char* key, const char* val) {
+    if (key && *key && val && *val)
+        user_tags[key] = val;
+}
+
 void
 DdogProfExporterDeleter::operator()(ddog_prof_Exporter* ptr) const
 {

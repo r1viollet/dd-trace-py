@@ -166,3 +166,46 @@ IF UNAME_SYSNAME == "Linux":
         runtime_id = ensure_binary(runtime.get_runtime_id())
         ddup_set_runtime_id(runtime_id, len(runtime_id))
         ddup_upload()
+
+    cdef extern from "exporter.hpp" namespace "Datadog":
+        cdef cppclass Uploader
+
+        cdef cppclass UploadBuilder:
+            UploaderBuilder() except +
+            void set_env(const char* env) except +
+            void set_service(const char* service) except +
+            void set_version(const char* version) except +
+            void set_runtime(const char* runtime) except +
+            void set_runtime_version(const char* runtime_version) except +
+            void set_profiler_version(const char* profiler_version) except +
+            void set_url(const char* url) except +
+            void set_tag(const char* key, const char* val) except +
+            Uploader *build_ptr();
+
+    cdef class Ddup:
+        cdef Uploader *uploader
+
+        def __init__(self,
+                    service: Optional[str],
+                    env: Optional[str],
+                    version: Optional[str],
+                    tags: Optional[typing.Dict[str, str]],
+                    max_nframes: Optional[int],
+                    url: Optional[str]):
+            cdef UploadBuilder builder
+            # Adjust init here
+            service = service or DEFAULT_SERVICE_NAME
+            builder.set_service(ensure_binary(service))
+
+            # Configuration based on provided values
+            if env:
+                builder.set_env(ensure_binary(env))
+            if version:
+                builder.set_version(ensure_binary(version))
+            if url:
+                builder.set_url(ensure_binary(url))
+            
+            uploader = builder.
+            # Wraning, init stuff missing
+
+            pass
